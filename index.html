@@ -199,28 +199,28 @@ const MODEL = "claude-sonnet-4-20250514";
 const QUESTIONS = [
   {id:"direction",area:"Direction",q:"How clear do you feel about what you want from your life right now?",opts:[
     {label:"Completely lost - I have no idea",score:1},
-    {label:"Unclear - something needs to change but I don't know what",score:2},
-    {label:"Partially clear - I have some ideas but can't choose",score:3},
-    {label:"Pretty clear - I know what I want, I'm just not moving",score:4},
-    {label:"Very clear - I know exactly where I'm going",score:5}]},
+    {label:"Unclear - something needs to change but I dont know what",score:2},
+    {label:"Partially clear - I have some ideas but cannot choose",score:3},
+    {label:"Pretty clear - I know what I want, just not moving",score:4},
+    {label:"Very clear - I know exactly where I am going",score:5}]},
   {id:"ideas",area:"Busy Mind",q:"When it comes to what you could do differently with your life or career, you have...",opts:[
-    {label:"Too many ideas - I can't choose between them",score:1},
-    {label:"A few ideas but none of them feel quite right",score:2},
+    {label:"Too many ideas - I cannot choose between them",score:1},
+    {label:"A few ideas but none feel quite right",score:2},
     {label:"One or two that keep coming back to me",score:3},
-    {label:"One clear direction I just haven't committed to",score:4},
-    {label:"A clear plan I'm already working on",score:5}]},
-  {id:"energy",area:"Energy & Fulfilment",q:"When you think about your typical week, how often do you feel genuinely energised by what you're doing?",opts:[
+    {label:"One clear direction I just have not committed to",score:4},
+    {label:"A clear plan I am already working on",score:5}]},
+  {id:"energy",area:"Energy & Fulfilment",q:"When you think about your typical week, how often do you feel genuinely energised by what you are doing?",opts:[
     {label:"Almost never - most of it drains me",score:1},
     {label:"Rarely - there are a few bright spots",score:2},
-    {label:"Sometimes - it's a mixed picture",score:3},
+    {label:"Sometimes - it is a mixed picture",score:3},
     {label:"Often - more good than bad",score:4},
     {label:"Most of the time - I love what I do",score:5}]},
   {id:"authentic",area:"Authenticity",q:"How much does your current life reflect who you actually are - your values, your strengths, what matters to you?",opts:[
-    {label:"Not at all - it feels like someone else's life",score:1},
-    {label:"Very little - I've drifted from who I really am",score:2},
-    {label:"Partially - some parts fit, others really don't",score:3},
+    {label:"Not at all - it feels like someone elses life",score:1},
+    {label:"Very little - I have drifted from who I really am",score:2},
+    {label:"Partially - some parts fit, others really do not",score:3},
     {label:"Mostly - a few things feel out of alignment",score:4},
-    {label:"Completely - I'm living in full alignment",score:5}]},
+    {label:"Completely - I am living in full alignment",score:5}]},
   {id:"action",area:"Taking Action",q:"When you know something in your life needs to change, you typically...",opts:[
     {label:"Feel paralysed - knowing and doing are very different things",score:1},
     {label:"Overthink it until the moment passes",score:2},
@@ -228,34 +228,34 @@ const QUESTIONS = [
     {label:"Eventually get there, but it takes longer than it should",score:4},
     {label:"Move quickly - I trust myself to figure it out",score:5}]},
   {id:"morning",area:"Day to Day",q:"How do you feel when you wake up on a typical Monday morning?",opts:[
-    {label:"Dread - I really don't want to face the week",score:1},
+    {label:"Dread - I really do not want to face the week",score:1},
     {label:"Flat - I go through the motions",score:2},
     {label:"Okay - some things to look forward to, some not",score:3},
     {label:"Generally fine - most days feel purposeful",score:4},
-    {label:"Ready - I'm excited about what the week holds",score:5}]},
+    {label:"Ready - I am excited about what the week holds",score:5}]},
   {id:"comparison",area:"Self Belief",q:"How often do you find yourself comparing your life to others and feeling behind?",opts:[
-    {label:"Constantly - it's exhausting",score:1},
+    {label:"Constantly - it is exhausting",score:1},
     {label:"Often - especially on social media",score:2},
     {label:"Sometimes - I can usually shake it off",score:3},
-    {label:"Rarely - I'm mostly focused on my own path",score:4},
-    {label:"Almost never - I'm genuinely at peace with where I am",score:5}]},
-  {id:"support",area:"Support & Connection",q:"When you're navigating something difficult - a decision, a transition, a feeling of being stuck - you feel...",opts:[
-    {label:"Completely alone - I don't have anyone who really gets it",score:1},
-    {label:"Mostly alone - I have people but they don't fully understand",score:2},
+    {label:"Rarely - I am mostly focused on my own path",score:4},
+    {label:"Almost never - I am genuinely at peace with where I am",score:5}]},
+  {id:"support",area:"Support & Connection",q:"When you are navigating something difficult - a decision, a transition, a feeling of being stuck - you feel...",opts:[
+    {label:"Completely alone - I do not have anyone who really gets it",score:1},
+    {label:"Mostly alone - I have people but they do not fully understand",score:2},
     {label:"Somewhat supported - some people, some of the time",score:3},
     {label:"Generally supported - I have people I can turn to",score:4},
     {label:"Very supported - I have exactly the right people around me",score:5}]},
   {id:"future",area:"Hope & Possibility",q:"When you think about where your life could be in 2 years, you feel...",opts:[
-    {label:"Hopeless - I can't imagine things being different",score:1},
-    {label:"Uncertain - I want things to change but don't see how",score:2},
+    {label:"Hopeless - I cannot imagine things being different",score:1},
+    {label:"Uncertain - I want things to change but do not see how",score:2},
     {label:"Cautiously hopeful - I can see a possibility but it feels far away",score:3},
     {label:"Optimistic - I believe things can be different",score:4},
     {label:"Excited - I have a clear and compelling vision",score:5}]},
   {id:"worthy",area:"Self Worth",q:"How often do you feel like you are living up to your own potential?",opts:[
-    {label:"Almost never - I know I'm capable of so much more",score:1},
+    {label:"Almost never - I know I am capable of so much more",score:1},
     {label:"Rarely - I keep starting things and not finishing them",score:2},
     {label:"Sometimes - I have moments but not consistently",score:3},
-    {label:"Often - I'm generally living well but there's more in me",score:4},
+    {label:"Often - I am generally living well but there is more in me",score:4},
     {label:"Most of the time - I feel genuinely fulfilled",score:5}]}
 ];
 
