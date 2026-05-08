@@ -446,7 +446,7 @@ async function generateResults() {
   } catch(e) {
     document.getElementById("mirror-spinner").style.display="none";
     const el=document.getElementById("mirror-err");
-    el.textContent="Something went wrong. Please refresh and try again.";
+    el.textContent="Error: "+e.message;
     el.classList.remove("hidden");
   }
 
@@ -462,7 +462,7 @@ async function generateResults() {
   } catch(e) {
     document.getElementById("patterns-spinner").style.display="none";
     const el=document.getElementById("patterns-err");
-    el.textContent="Something went wrong. Please refresh and try again.";
+    el.textContent="Error: "+e.message;
     el.classList.remove("hidden");
   }
 
@@ -478,7 +478,7 @@ async function generateResults() {
   } catch(e) {
     document.getElementById("invitation-spinner").style.display="none";
     const el=document.getElementById("invitation-err");
-    el.textContent="Something went wrong. Please refresh and try again.";
+    el.textContent="Error: "+e.message;
     el.classList.remove("hidden");
   }
 
