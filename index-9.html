@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Life Check-In — Focussed.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("SVVZDZ3KvkTlQW10Z");</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',sans-serif;font-weight:300;color:#1a1a18;background:#fafaf8;min-height:100vh;padding:2rem 1rem 4rem}
+.wrap{max-width:560px;margin:0 auto}
+.logo-wrap{display:flex;justify-content:center;margin-bottom:16px}
+.logo{width:48px;height:48px;border-radius:50%;background:#1a1a18;display:flex;align-items:center;justify-content:center}
+.logo-inner{font-family:'Jost',sans-serif;font-size:16px;font-weight:500;color:#fff;display:flex;align-items:baseline;gap:2px;margin-top:2px}
+.logo-dot{width:3.5px;height:3.5px;border-radius:50%;background:#fff;display:inline-block;margin-bottom:-1px}
+.divider{display:flex;align-items:center;gap:10px;margin:0 auto 1.75rem;width:120px}
+.divider-line{flex:1;height:0.5px;background:#e0e0d8}
+.divider-dot{width:3px;height:3px;border-radius:50%;background:#aaa}
+h1{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;letter-spacing:0.08em;color:#1a1a18;margin-bottom:6px}
+h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;letter-spacing:0.06em;color:#1a1a18;margin-bottom:6px}
+.subtitle{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa}
+.intro-text{font-family:'Jost',sans-serif;font-size:13px;color:#666;line-height:1.8;margin-bottom:1.5rem;text-align:center;font-weight:300}
+.tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.tag{display:inline-block;font-size:11px;padding:3px 10px;border:0.5px solid #e0e0d8;border-radius:20px;color:#888;font-family:'Jost',sans-serif}
+.label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#aaa;font-weight:400;display:block;margin-bottom:5px;font-family:'Jost',sans-serif}
+input{border:0.5px solid #e0e0d8;border-radius:8px;padding:10px 14px;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;background:#fff;color:#1a1a18;width:100%;margin-bottom:12px;outline:none}
+input:focus{border-color:#888}
+.hint{font-family:'Jost',sans-serif;font-size:11px;color:#aaa;margin-top:-8px;margin-bottom:12px;line-height:1.5;font-weight:300}
+.btn{width:100%;padding:12px;border:0.5px solid #ccc;border-radius:8px;background:#1a1a18;color:#fff;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-weight:400;margin-top:8px}
+.btn:hover{opacity:0.88}
+.btn:disabled{background:#f4f4f0;color:#aaa;cursor:not-allowed}
+.err{background:#fdf0f0;border:0.5px solid #f5c0c0;border-radius:8px;padding:10px 14px;font-size:12px;color:#c0392b;line-height:1.65;font-family:'Jost',sans-serif;margin-top:8px}
+.progress-wrap{height:2px;background:#f0f0e8;border-radius:2px;margin-bottom:1.5rem}
+.progress-bar{height:100%;background:#1a1a18;border-radius:2px;transition:width 0.3s}
+.area-tag{display:inline-block;font-size:10px;padding:2px 10px;border:0.5px solid #e0e0d8;border-radius:20px;color:#aaa;font-family:'Jost',sans-serif;margin-bottom:14px}
+.question{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;font-style:italic;line-height:1.65;color:#1a1a18;margin-bottom:1.25rem}
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
+.opt{border:0.5px solid #e0e0d8;border-radius:8px;padding:12px 16px;background:#fff;cursor:pointer;text-align:left;font-family:'Jost',sans-serif;font-weight:300;font-size:13px;color:#555;line-height:1.5;width:100%;transition:all 0.15s}
+.opt:hover{border-color:#888;opacity:0.9}
+.opt.selected{border-color:#1a1a18;background:#f4f4f0;color:#1a1a18;font-weight:400}
+.back-btn{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#aaa;cursor:pointer;background:none;border:none;font-family:'Jost',sans-serif;padding:0;font-weight:400}
+.card{border:0.5px solid #e0e0d8;border-radius:12px;padding:1.25rem 1.5rem;background:#fff;margin-bottom:12px}
+.card.muted{background:#f8f8f4}
+.card.featured{border-color:#c8c8c0;background:#fafaf8}
+.card-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#aaa;font-weight:400;margin-bottom:8px;font-family:'Jost',sans-serif}
+.card-body{font-family:'Jost',sans-serif;font-size:13px;line-height:1.8;color:#555;font-weight:300}
+.card-italic{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;line-height:1.85;color:#1a1a18}
+.name-display{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;font-style:italic;color:#1a1a18;margin-bottom:4px}
+.spinner{display:flex;align-items:center;gap:10px;padding:10px 0;color:#888;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-family:'Jost',sans-serif}
+.spin{width:18px;height:18px;border-radius:50%;border:0.5px solid #ccc;border-top-color:#555;animation:spin 1.2s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.score-wrap{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.score-track{flex:1;height:6px;background:#f0f0e8;border-radius:3px;overflow:hidden}
+.score-fill{height:100%;background:#1a1a18;border-radius:3px;transition:width 0.6s}
+.score-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1a1a18;min-width:40px;text-align:right}
+.score-badge{display:inline-block;font-size:11px;padding:3px 12px;border-radius:20px;font-family:'Jost',sans-serif;margin-bottom:10px}
+.areas-wrap{display:flex;gap:16px;flex-wrap:wrap}
+.area-section-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#aaa;margin-bottom:4px;font-family:'Jost',sans-serif}
+.area-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:12px;margin:2px;font-family:'Jost',sans-serif}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:1.75rem}
+.dot{width:6px;height:6px;border-radius:50%;background:#ddd;transition:background 0.2s}
+.dot.active{background:#555}
+.cta-card{border:0.5px solid #e0e0d8;border-radius:12px;padding:1.5rem;text-align:center;background:#fff;margin-bottom:12px}
+.cta-text{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;line-height:1.8;color:#555;margin-bottom:1.25rem}
+.cta-btn{display:inline-block;background:#1a1a18;color:#fff;border-radius:8px;padding:12px 28px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;font-weight:400}
+.cta-hint{font-family:'Jost',sans-serif;font-size:11px;color:#aaa;margin-top:10px;line-height:1.6;font-weight:300}
+.text-center{text-align:center}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- PHASE 0: INTRO -->
+<div id="phase-0">
+  <div class="text-center" style="margin-bottom:1.75rem">
+    <div class="logo-wrap">
+      <div class="logo">
+        <span class="logo-inner">F<span class="logo-dot"></span></span>
+      </div>
+    </div>
+    <h1>The Life Check-In</h1>
+    <p class="subtitle">Find your focus</p>
+  </div>
+  <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+  <p class="intro-text">Designed for people who feel ready for change but are not sure where to start.</p>
+  <p class="intro-text">10 honest questions to help you get a clear picture of where you are right now. No judgement — just clarity on what is working and what is not.</p>
+  <div class="tags">
+    <span class="tag">10 minutes</span>
+    <span class="tag">Completely free</span>
+    <span class="tag">No judgement</span>
+  </div>
+  <label class="label">Your first name</label>
+  <input id="inp-name" type="text" placeholder="e.g. Sarah">
+  <div id="intro-err" class="err hidden"></div>
+  <button class="btn" onclick="startCheckin()">Begin my Life Check-In &rarr;</button>
+</div>
+
+<!-- PHASE 1: QUESTIONS -->
+<div id="phase-1" class="hidden">
+  <div class="text-center" style="margin-bottom:1.25rem">
+    <div class="logo-wrap">
+      <div class="logo"><span class="logo-inner">F<span class="logo-dot"></span></span></div>
+    </div>
+    <p class="subtitle" id="q-counter">Question 1 of 10</p>
+  </div>
+  <div class="dots" id="dots-bar"></div>
+  <div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:10%"></div></div>
+  <div class="area-tag" id="q-area">Direction</div>
+  <div class="question" id="q-text"></div>
+  <div class="opts" id="q-opts"></div>
+  <button class="back-btn" id="back-btn" onclick="prevQ()" style="display:none">&larr; Previous question</button>
+</div>
+
+<!-- PHASE 2: EMAIL GATE -->
+<div id="phase-2" class="hidden">
+  <div class="text-center" style="padding:2rem 0 1.5rem">
+    <div class="logo-wrap"><div class="logo"><span class="logo-inner">F<span class="logo-dot"></span></span></div></div>
+    <h2>Your results are ready</h2>
+    <p class="subtitle" style="margin-bottom:1.5rem">The Life Check-In</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+    <p class="intro-text">Enter your email to unlock your personalised results.</p>
+  </div>
+  <label class="label">Your email address</label>
+  <input id="inp-email" type="email" placeholder="hello@example.com">
+  <p class="hint">We respect your privacy. <a href="https://findyourfocus.uk/privacy" style="color:#aaa;text-decoration:underline">Read our privacy policy.</a></p>
+  <div id="gate-err" class="err hidden"></div>
+  <button class="btn" onclick="unlockResults()">Unlock my results &rarr;</button>
+</div>
+
+<!-- PHASE 3: RESULTS -->
+<div id="phase-3" class="hidden">
+  <div class="text-center" style="margin-bottom:1.75rem">
+    <div class="logo-wrap"><div class="logo"><span class="logo-inner">F<span class="logo-dot"></span></span></div></div>
+    <div class="name-display" id="result-name"></div>
+    <p class="subtitle">The Life Check-In</p>
+  </div>
+  <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
+
+  <!-- Score -->
+  <div class="card">
+    <div class="card-label">Your overall picture</div>
+    <div class="score-wrap">
+      <div class="score-track"><div class="score-fill" id="score-fill" style="width:0%"></div></div>
+      <div class="score-num" id="score-num">0%</div>
+    </div>
+    <span class="score-badge" id="score-badge"></span>
+    <div class="areas-wrap" id="areas-wrap"></div>
+  </div>
+
+  <!-- Mirror -->
+  <div class="card muted">
+    <div class="card-label">Where you are right now</div>
+    <div id="mirror-spinner" class="spinner"><div class="spin"></div>Reading your responses...</div>
+    <p class="card-body" id="mirror-text" style="display:none"></p>
+    <div class="err hidden" id="mirror-err"></div>
+  </div>
+
+  <!-- Patterns -->
+  <div class="card">
+    <div class="card-label">What your results reveal</div>
+    <div id="patterns-spinner" class="spinner"><div class="spin"></div>Identifying your patterns...</div>
+    <p class="card-body" id="patterns-text" style="display:none"></p>
+    <div class="err hidden" id="patterns-err"></div>
+  </div>
+
+  <!-- Invitation -->
+  <div class="card featured">
+    <div class="card-label">What comes next</div>
+    <div id="invitation-spinner" class="spinner"><div class="spin"></div>Almost there...</div>
+    <p class="card-italic" id="invitation-text" style="display:none"></p>
+    <div class="err hidden" id="invitation-err"></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-card" id="cta-card" style="display:none">
+    <p class="cta-text">If you would like to take the next step in your journey book a call. We will discuss your results and work out what your next chapter could look like.</p>
+    <a href="https://calendly.com/focussed" target="_blank" class="cta-btn">Book your free 15-minute call &rarr;</a>
+    <p class="cta-hint">Free &middot; 15 minutes &middot; No obligation</p>
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div style="max-width:560px;margin:2rem auto 0;padding:1.5rem 0;border-top:0.5px solid #e0e0d8;text-align:center">
+
+  <!-- Copyright & IP notice -->
+  <p style="font-family:'Jost',sans-serif;font-size:11px;color:#aaa;line-height:1.8;font-weight:300;margin-bottom:10px">
+    &copy; Focussed. 2026 &nbsp;&middot;&nbsp; findyourfocus.uk &nbsp;&middot;&nbsp; hello@findyourfocus.uk
+  </p>
+  <p style="font-family:'Jost',sans-serif;font-size:10px;color:#ccc;line-height:1.8;font-weight:300;margin-bottom:10px">
+    The Life Check-In is the original intellectual property of Focussed. and is protected by copyright.
+    The questions, scoring methodology, structure and written content of this tool may not be reproduced,
+    copied, distributed or used in any form without the express written permission of Focussed.
+    All rights reserved.
+  </p>
+
+  <!-- Disclaimer -->
+  <p style="font-family:'Jost',sans-serif;font-size:11px;color:#aaa;line-height:1.7;font-weight:300;margin-bottom:8px">
+    The Life Check-In is a self-reflection tool for personal development purposes only. It does not constitute therapy,
+    counselling, or medical advice and is not a substitute for professional mental health support. If you are
+    experiencing a mental health crisis or feel you may be at risk, please contact your GP or a qualified mental
+    health professional. In the UK you can call the Samaritans free on <strong style="font-weight:400;color:#888">116 123</strong> at any time.
+  </p>
+
+</div>
+
+<script>
+const API_BASE = "https://lively-art-0212.abbi-igwemma.workers.dev";
+
+const QUESTIONS = [
+  {id:"direction",area:"Direction",q:"How clear do you feel about what you want from your life right now?",opts:[
+    {label:"Completely lost - I have no idea",score:1},
+    {label:"Unclear - something needs to change but I dont know what",score:2},
+    {label:"Partially clear - I have some ideas but cannot choose",score:3},
+    {label:"Pretty clear - I know what I want, just not moving",score:4},
+    {label:"Very clear - I know exactly where I am going",score:5}]},
+  {id:"ideas",area:"Busy Mind",q:"When it comes to what you could do differently with your life or career, you have...",opts:[
+    {label:"Too many ideas - I cannot choose between them",score:1},
+    {label:"A few ideas but none feel quite right",score:2},
+    {label:"One or two that keep coming back to me",score:3},
+    {label:"One clear direction I just have not committed to",score:4},
+    {label:"A clear plan I am already working on",score:5}]},
+  {id:"energy",area:"Energy & Fulfilment",q:"When you think about your typical week, how often do you feel genuinely energised by what you are doing?",opts:[
+    {label:"Almost never - most of it drains me",score:1},
+    {label:"Rarely - there are a few bright spots",score:2},
+    {label:"Sometimes - it is a mixed picture",score:3},
+    {label:"Often - more good than bad",score:4},
+    {label:"Most of the time - I love what I do",score:5}]},
+  {id:"authentic",area:"Authenticity",q:"How much does your current life reflect who you actually are - your values, your strengths, what matters to you?",opts:[
+    {label:"Not at all - it feels like someone elses life",score:1},
+    {label:"Very little - I have drifted from who I really am",score:2},
+    {label:"Partially - some parts fit, others really do not",score:3},
+    {label:"Mostly - a few things feel out of alignment",score:4},
+    {label:"Completely - I am living in full alignment",score:5}]},
+  {id:"action",area:"Taking Action",q:"When you know something in your life needs to change, you typically...",opts:[
+    {label:"Feel paralysed - knowing and doing are very different things",score:1},
+    {label:"Overthink it until the moment passes",score:2},
+    {label:"Start things but struggle to follow through",score:3},
+    {label:"Eventually get there, but it takes longer than it should",score:4},
+    {label:"Move quickly - I trust myself to figure it out",score:5}]},
+  {id:"morning",area:"Day to Day",q:"How do you feel when you wake up on a typical Monday morning?",opts:[
+    {label:"Dread - I really do not want to face the week",score:1},
+    {label:"Flat - I go through the motions",score:2},
+    {label:"Okay - some things to look forward to, some not",score:3},
+    {label:"Generally fine - most days feel purposeful",score:4},
+    {label:"Ready - I am excited about what the week holds",score:5}]},
+  {id:"comparison",area:"Self Belief",q:"How often do you find yourself comparing your life to others and feeling behind?",opts:[
+    {label:"Constantly - it is exhausting",score:1},
+    {label:"Often - especially on social media",score:2},
+    {label:"Sometimes - I can usually shake it off",score:3},
+    {label:"Rarely - I am mostly focused on my own path",score:4},
+    {label:"Almost never - I am genuinely at peace with where I am",score:5}]},
+  {id:"support",area:"Support & Connection",q:"When you are navigating something difficult - a decision, a transition, a feeling of being stuck - you feel...",opts:[
+    {label:"Completely alone - I do not have anyone who really gets it",score:1},
+    {label:"Mostly alone - I have people but they do not fully understand",score:2},
+    {label:"Somewhat supported - some people, some of the time",score:3},
+    {label:"Generally supported - I have people I can turn to",score:4},
+    {label:"Very supported - I have exactly the right people around me",score:5}]},
+  {id:"future",area:"Hope & Possibility",q:"When you think about where your life could be in 2 years, you feel...",opts:[
+    {label:"Hopeless - I cannot imagine things being different",score:1},
+    {label:"Uncertain - I want things to change but do not see how",score:2},
+    {label:"Cautiously hopeful - I can see a possibility but it feels far away",score:3},
+    {label:"Optimistic - I believe things can be different",score:4},
+    {label:"Excited - I have a clear and compelling vision",score:5}]},
+  {id:"worthy",area:"Self Worth",q:"How often do you feel like you are living up to your own potential?",opts:[
+    {label:"Almost never - I know I am capable of so much more",score:1},
+    {label:"Rarely - I keep starting things and not finishing them",score:2},
+    {label:"Sometimes - I have moments but not consistently",score:3},
+    {label:"Often - I am generally living well but there is more in me",score:4},
+    {label:"Most of the time - I feel genuinely fulfilled",score:5}]}
+];
+
+// ─── MAILERLITE ───────────────────────────────────────────────────────────────
+
+async function addToMailerLite(firstName, email) {
+  try {
+    const first = firstName.split(" ")[0];
+    const last  = firstName.split(" ").slice(1).join(" ");
+    const response = await fetch("https://connect.mailerlite.com/api/subscribers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiMGZlYTAzMDdmZGYxMDgzZTc1NjdlMzYzYWRiNTY0ZDJmYjI5MWQzMzg0OTM4NDQ1YWI4NTFhZjkxYTVkY2NhMzEyMzM2NWUwNGMyOWFjYWEiLCJpYXQiOjE3Nzg0MzY5MDkuOTkzOTc4LCJuYmYiOjE3Nzg0MzY5MDkuOTkzOTgsImV4cCI6NDkzNDExMDUwOS45ODUwODQsInN1YiI6IjIzNTQzNDMiLCJzY29wZXMiOltdfQ.jsuMZdgtFycXL0Gi9I0bxfBgDRiawPtOneVwwmL2nrhmMAyqoTAfbXkXqbzMtzAaPmOSAfsa7VWHdLvWW3mzi27gZguTippoOjbofYG1tSnmySLCz5W1MSr-VzTTfaTWwrMdm2Qkx3ALH1R3jET8qS9DP4n1wJoiXUkLXMZZQnj0SXPPtBjTOtks2jXtj99d5bPo25uio7q3HxPYbaWnCiS6rd6sIDrrH54mMojla4fLl1HN1kPMRIh1wCitc6B0UUkW7GdcS3WNtpykjPyPFjIiM07oaVa94dJlXqM4IDJrquNovW8WhiSTupFWDI--8_dTqu3tDlGVHGwYLgTxbe_A9mKgniOm56oQ2CpKtrfJ4Nl8n_p7ASm0NtojMy_8pZrENj_ThrY5plA34OV59vLGBofroUx3a8TnQCmjDjPMMEx_DIRJosxLCGKSLVtMjSrCxFThKfpVvo2bRZMypqlVIM9_OngetNVLTq6iYWQTWLaL6bRbk3xDCtq9V2puR5oU5UO39-yEcDK2b6A6oIO4CaKy76cUo8bDukoQz-v24fY8WuANQ5nW6hy5slqvOHpMY2o4zwh67dLIVxWDNyjs-Ouxb8CSzPeRp-UsZshKBun0al6mQL3qwDLasFcumST5tdVksN1RQMHQ2LCP-GAx9J_RXJTHSQKxz4yKWOE"
+      },
+      body: JSON.stringify({
+        email: email,
+        fields: { name: first, last_name: last },
+        groups: ["187096556974901153"]
+      })
+    });
+    if (response.ok) {
+      console.log("MailerLite: subscriber added successfully");
+    } else {
+      const err = await response.json();
+      console.log("MailerLite error:", err);
+    }
+  } catch(e) {
+    console.log("MailerLite signup error:", e.message);
+  }
+}
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+
+let state = { phase:0, name:"", email:"", current:0, answers:{} };
+
+function show(id) {
+  ["phase-0","phase-1","phase-2","phase-3"].forEach(p => {
+    document.getElementById(p).classList.toggle("hidden", p !== id);
+  });
+}
+
+// ─── FLOW ─────────────────────────────────────────────────────────────────────
+
+function startCheckin() {
+  const name = document.getElementById("inp-name").value.trim();
+  const err  = document.getElementById("intro-err");
+  if (!name) { err.textContent="Please enter your first name."; err.classList.remove("hidden"); return; }
+  err.classList.add("hidden");
+  state.name = name; state.email = ""; state.current = 0; state.answers = {};
+  renderQuestion();
+  show("phase-1");
+}
+
+function unlockResults() {
+  const email = document.getElementById("inp-email").value.trim();
+  const err   = document.getElementById("gate-err");
+  if (!email || !email.includes("@")) { err.textContent="Please enter a valid email address."; err.classList.remove("hidden"); return; }
+  err.classList.add("hidden");
+  state.email = email;
+  addToMailerLite(state.name, email);
+  generateResults();
+}
+
+function renderQuestion() {
+  const q     = QUESTIONS[state.current];
+  const total = QUESTIONS.length;
+  document.getElementById("q-counter").textContent = `Question ${state.current+1} of ${total}`;
+  document.getElementById("prog-bar").style.width  = `${((state.current+1)/total)*100}%`;
+  document.getElementById("q-area").textContent    = q.area;
+  document.getElementById("q-text").textContent    = q.q;
+  document.getElementById("back-btn").style.display = state.current > 0 ? "block" : "none";
+
+  const dotsBar = document.getElementById("dots-bar");
+  dotsBar.innerHTML = "";
+  for(let i=0;i<total;i++){
+    const d=document.createElement("div");
+    d.className="dot"+(i<=state.current?" active":"");
+    dotsBar.appendChild(d);
+  }
+
+  const optsEl = document.getElementById("q-opts");
+  optsEl.innerHTML = "";
+  const sel = state.answers[q.id];
+  q.opts.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "opt" + (sel && sel.label===opt.label ? " selected" : "");
+    btn.textContent = opt.label;
+    btn.onclick = () => selectOpt(opt.score, opt.label);
+    optsEl.appendChild(btn);
+  });
+}
+
+function selectOpt(score, label) {
+  const q = QUESTIONS[state.current];
+  state.answers[q.id] = { score, label, area: q.area };
+  renderQuestion();
+  setTimeout(() => {
+    if (state.current < QUESTIONS.length - 1) {
+      state.current++;
+      renderQuestion();
+    } else {
+      show("phase-2");
+    }
+  }, 320);
+}
+
+function prevQ() {
+  if (state.current > 0) { state.current--; renderQuestion(); }
+}
+
+// ─── CLAUDE ───────────────────────────────────────────────────────────────────
+
+async function askClaude(prompt, system, maxTokens=1000) {
+  const res = await fetch(`${API_BASE}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model:      "claude-haiku-4-5-20251001",
+      max_tokens: maxTokens,
+      system:     system,
+      messages:   [{ role:"user", content:prompt }]
+    })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(data.error || data));
+  return data.content[0].text;
+}
+
+// ─── RESULTS ─────────────────────────────────────────────────────────────────
+
+async function generateResults() {
+  const vals      = Object.values(state.answers);
+  const total     = vals.reduce((s,a) => s+a.score, 0);
+  const pct       = Math.round((total/(QUESTIONS.length*5))*100);
+  const lowAreas  = vals.filter(a=>a.score<=2).map(a=>a.area);
+  const highAreas = vals.filter(a=>a.score>=4).map(a=>a.area);
+  const firstName = state.name.split(" ")[0].replace(/[^a-zA-Z]/g,"") || "you";
+
+  function sanitise(str) {
+    return str
+      .replace(/\u2014|\u2013/g, "-")
+      .replace(/\u2018|\u2019|'/g, "")
+      .replace(/\u201C|\u201D/g, "")
+      .replace(/[^\x20-\x7E]/g, "")
+      .trim();
+  }
+
+  const answerSummary = vals.map(a=>`${a.area}: ${sanitise(a.label)} (score ${a.score}/5)`).join(". ");
+
+  show("phase-3");
+  document.getElementById("result-name").textContent = state.name;
+
+  setTimeout(()=>{ document.getElementById("score-fill").style.width = pct+"%"; }, 100);
+  document.getElementById("score-num").textContent = pct+"%";
+
+  const badge = document.getElementById("score-badge");
+  if(pct>=80){badge.textContent="Mostly aligned";badge.style.cssText="border:0.5px solid #b8dfc8;background:#eaf8f0;color:#1a6640";}
+  else if(pct>=60){badge.textContent="Some friction";badge.style.cssText="border:0.5px solid #f0d060;background:#fffbec;color:#856a00";}
+  else if(pct>=40){badge.textContent="Needs attention";badge.style.cssText="border:0.5px solid #f0b898;background:#fdf0ea;color:#8a3a1a";}
+  else{badge.textContent="Ready for change";badge.style.cssText="border:0.5px solid #f5c0c0;background:#fdf0f0;color:#c0392b";}
+
+  const areasWrap = document.getElementById("areas-wrap");
+  areasWrap.innerHTML = "";
+  if(lowAreas.length){
+    const sec=document.createElement("div");
+    sec.innerHTML="<div class='area-section-label'>Needs focus</div><div>"+lowAreas.map(a=>"<span class='area-pill' style='border:0.5px solid #f0d0b8;background:#fdf0ea;color:#8a3a1a'>"+a+"</span>").join("")+"</div>";
+    areasWrap.appendChild(sec);
+  }
+  if(highAreas.length){
+    const sec=document.createElement("div");
+    sec.innerHTML="<div class='area-section-label'>Working well</div><div>"+highAreas.map(a=>"<span class='area-pill' style='border:0.5px solid #b8dfc8;background:#eaf8f0;color:#1a6640'>"+a+"</span>").join("")+"</div>";
+    areasWrap.appendChild(sec);
+  }
+
+  const sys = "You are a warm, perceptive life coach writing for Focussed. - a clarity coaching brand for people with busy minds. Write in flowing prose, no bullet points or headers. Address the person directly as "+firstName+". Be specific to their exact answers - do not be generic. Your tone is like a trusted friend who sees them clearly and tells them the truth with warmth. Your goal is to make them feel completely seen and understood - not fixed or advised, just genuinely heard. Keep responses concise - this person has a busy mind.";
+
+  // Mirror
+  try {
+    const text = await askClaude(
+      firstName+" completed The Life Check-In with these answers: "+answerSummary+". Write 3 sentences that act purely as a mirror. Do not interpret, advise or look for patterns - just reflect back exactly what "+firstName+"s answers show about their daily lived experience right now. Use specific details from their answers - name the actual areas they scored low in and describe what that feels like day to day. No advice, no silver lining, no forward looking. Just: this is what your life looks and feels like right now. Make them feel completely seen.",
+      sys
+    );
+    document.getElementById("mirror-spinner").style.display="none";
+    const el=document.getElementById("mirror-text");
+    el.textContent=text; el.style.display="block";
+  } catch(e) {
+    document.getElementById("mirror-spinner").style.display="none";
+    const el=document.getElementById("mirror-err");
+    el.textContent="We could not generate your results right now. Please try again in a moment.";
+    el.classList.remove("hidden");
+  }
+
+  // Patterns
+  try {
+    const text = await askClaude(
+      firstName+" completed The Life Check-In with these answers: "+answerSummary+". Low scoring areas: "+(lowAreas.join(", ")||"none")+". High scoring areas: "+(highAreas.join(", ")||"none")+". Write 3 sentences that go beneath the surface scores to name the single root cause driving all of "+firstName+"s low scores. Do not list the symptoms - find what is underneath them all. Then name what this root cause is costing "+firstName+" in their daily life. Be direct, specific and compassionate. Do not repeat anything already said about their current situation - this should feel like a deeper layer of truth being revealed.",
+      sys
+    );
+    document.getElementById("patterns-spinner").style.display="none";
+    const el=document.getElementById("patterns-text");
+    el.textContent=text; el.style.display="block";
+  } catch(e) {
+    document.getElementById("patterns-spinner").style.display="none";
+    const el=document.getElementById("patterns-err");
+    el.textContent="We could not generate your results right now. Please try again in a moment.";
+    el.classList.remove("hidden");
+  }
+
+  // Invitation
+  try {
+    const text = await askClaude(
+      firstName+" completed The Life Check-In with these answers: "+answerSummary+". Write 2 sentences that paint a specific picture of what "+firstName+"s life could look and feel like on the other side of this - when they have clarity, direction and know who they are. Be vivid and specific to their answers - not generic. Do not mention coaching or programmes. Just show them the version of their life that is possible. Then end with exactly this sentence: If this resonates and you would like to explore possible next steps, book a call - I would love to help you.",
+      sys, 400
+    );
+    document.getElementById("invitation-spinner").style.display="none";
+    const el=document.getElementById("invitation-text");
+    el.textContent=text; el.style.display="block";
+  } catch(e) {
+    document.getElementById("invitation-spinner").style.display="none";
+    const el=document.getElementById("invitation-err");
+    el.textContent="We could not generate your results right now. Please try again in a moment.";
+    el.classList.remove("hidden");
+  }
+
+  document.getElementById("cta-card").style.display="block";
+
+  // Coach notification
+  try {
+    await emailjs.send("service_f8w2vgb", "template_by69sec", {
+      client_name:  state.name,
+      client_email: state.email,
+      score:        pct + "%",
+      low_areas:    lowAreas.join(", ") || "None",
+      high_areas:   highAreas.join(", ") || "None",
+      mirror:       document.getElementById("mirror-text").textContent || "Not generated",
+      patterns:     document.getElementById("patterns-text").textContent || "Not generated",
+      invitation:   document.getElementById("invitation-text").textContent || "Not generated"
+    });
+    console.log("Coach notification sent");
+  } catch(e) {
+    console.log("Coach notification error:", e);
+  }
+}
+</script>
+</body>
+</html>
