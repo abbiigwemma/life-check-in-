@@ -80,6 +80,19 @@ nav{background:var(--burg);padding:16px 24px;display:flex;justify-content:space-
 .area-pill.focus{background:#faecea;color:#c0392b;border:1px solid #f0c8c8;}
 .area-pill.well{background:#eaf8f0;color:#1a6640;border:1px solid #c8e8d8;}
 
+.area-pill.steady{background:#f7f4ec;color:#6b6352;border:1px solid #e2dccb;}
+
+/* ANSWER TABLE + NOTES */
+.bd-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.bd-table td{padding:9px 10px 9px 0;border-bottom:0.5px solid var(--border);vertical-align:top;color:var(--grey);line-height:1.55;}
+.bd-table tr:last-child td{border-bottom:none;}
+.bd-area{font-weight:500;color:var(--ink);}
+.bd-score{white-space:nowrap;}
+.notes{display:flex;flex-direction:column;gap:8px;}
+.note{background:#faf6f7;border-left:3px solid var(--burg);padding:10px 14px;border-radius:0 6px 6px 0;font-size:12.5px;color:var(--grey);line-height:1.65;}
+.note strong{color:var(--ink);font-weight:500;}
+.note.care{background:#fff8ec;border-left-color:#b0741a;}
+
 /* CONTENT BLOCKS */
 .block{margin-bottom:16px;}
 .block-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--burg);font-weight:600;margin-bottom:6px;}
@@ -111,6 +124,9 @@ nav{background:var(--burg);padding:16px 24px;display:flex;justify-content:space-
   .prompt{background:#f0f8ec!important;border-left:3px solid #1a6640!important;}
   .area-pill.focus{background:#faecea!important;color:#c0392b!important;}
   .area-pill.well{background:#eaf8f0!important;color:#1a6640!important;}
+  .area-pill.steady{background:#f7f4ec!important;color:#6b6352!important;}
+  .note{background:#faf6f7!important;border-left:3px solid #61122a!important;}
+  .note.care{background:#fff8ec!important;border-left:3px solid #b0741a!important;}
   .section-title{color:#61122a!important;}
   .section-sub{margin-bottom:12px!important;}
 }
@@ -150,7 +166,8 @@ nav{background:var(--burg);padding:16px 24px;display:flex;justify-content:space-
       <div class="card-title">Life Check-In Scores (1–5)</div>
       <div class="score-grid">
         <div class="score-item"><label>Direction</label><input type="number" id="s-direction" placeholder="1–5" min="1" max="5"></div>
-        <div class="score-item"><label>Busy Mind</label><input type="number" id="s-busymind" placeholder="1–5" min="1" max="5"></div>
+        <div class="score-item"><label>Idea Clarity</label><input type="number" id="s-ideaclarity" placeholder="1–5" min="1" max="5"></div>
+        <div class="score-item"><label>Clear Mind</label><input type="number" id="s-clearmind" placeholder="1–5" min="1" max="5"></div>
         <div class="score-item"><label>Energy & Fulfilment</label><input type="number" id="s-energy" placeholder="1–5" min="1" max="5"></div>
         <div class="score-item"><label>Authenticity</label><input type="number" id="s-authenticity" placeholder="1–5" min="1" max="5"></div>
         <div class="score-item"><label>Taking Action</label><input type="number" id="s-action" placeholder="1–5" min="1" max="5"></div>
@@ -185,8 +202,32 @@ nav{background:var(--burg);padding:16px 24px;display:flex;justify-content:space-
         <div id="score-band-display"></div>
         <div class="block-label">Areas needing focus</div>
         <div class="areas-row" id="focus-areas"></div>
+        <div class="block-label" style="margin-top:8px;">Holding steady</div>
+        <div class="areas-row" id="steady-areas"></div>
         <div class="block-label" style="margin-top:8px;">Areas working well</div>
         <div class="areas-row" id="well-areas"></div>
+      </div>
+    </div>
+
+    <!-- HER ANSWERS -->
+    <div class="result-card">
+      <div class="result-header">
+        <h3>Her Answers</h3>
+        <p>Every area with the answer she chose, lowest first</p>
+      </div>
+      <div class="result-body">
+        <table class="bd-table"><tbody id="score-breakdown"></tbody></table>
+      </div>
+    </div>
+
+    <!-- WHAT STANDS OUT -->
+    <div class="result-card">
+      <div class="result-header">
+        <h3>What Stands Out</h3>
+        <p>How her answers relate to each other</p>
+      </div>
+      <div class="result-body">
+        <div class="notes" id="standout-notes"></div>
       </div>
     </div>
 
@@ -194,20 +235,28 @@ nav{background:var(--burg);padding:16px 24px;display:flex;justify-content:space-
     <div class="result-card">
       <div class="result-header">
         <h3>Root Cause Analysis</h3>
-        <p>What is really going on beneath the scores</p>
+        <p>The cause, how it shows up, and what it costs her</p>
       </div>
       <div class="result-body">
         <div class="block">
-          <div class="block-label">Identified root</div>
+          <div class="block-label">1. The root: why she is stuck</div>
           <div class="block-content highlight" id="root-display"></div>
         </div>
         <div class="block">
-          <div class="block-label">What this means</div>
+          <div class="block-label">2. How it shows up</div>
           <div class="block-content" id="root-meaning"></div>
         </div>
         <div class="block">
-          <div class="block-label">What it is costing her</div>
+          <div class="block-label">3. What it is costing her</div>
           <div class="block-content" id="root-cost"></div>
+        </div>
+        <div class="block" id="root-why-block">
+          <div class="block-label">Her answers that point here</div>
+          <div class="notes" id="root-why"></div>
+        </div>
+        <div class="block" id="root-close-block">
+          <div class="block-label">Also showing up</div>
+          <div class="notes" id="root-close"></div>
         </div>
       </div>
     </div>
@@ -264,7 +313,8 @@ nav{background:var(--burg);padding:16px 24px;display:flex;justify-content:space-
 <script>
 const AREAS = [
   {id:'s-direction',    name:'Direction'},
-  {id:'s-busymind',     name:'Busy Mind'},
+  {id:'s-ideaclarity',  name:'Idea Clarity'},
+  {id:'s-clearmind',    name:'Clear Mind'},
   {id:'s-energy',       name:'Energy & Fulfilment'},
   {id:'s-authenticity', name:'Authenticity'},
   {id:'s-action',       name:'Taking Action'},
@@ -274,6 +324,24 @@ const AREAS = [
   {id:'s-hope',         name:'Hope & Possibility'},
   {id:'s-selfworth',    name:'Self Worth'},
 ];
+
+// The answer behind each score, in order 1 to 5. These mirror the Life Check-In
+// questions: if a question or answer changes there, change it here too.
+const ANSWERS = {
+  's-direction':    ["Completely lost - I have no idea","Unclear - something needs to change but I don't know what","Partially clear - I have some ideas but cannot choose","Pretty clear - I know what I want, just not moving","Very clear - I know exactly where I am going"],
+  's-ideaclarity':  ["Too many ideas - I cannot choose between them","A few ideas but none feel quite right","One or two that keep coming back to me","One clear idea I just have not committed to","A clear plan I am already working on"],
+  's-clearmind':    ["Constantly - my mind never switches off","Often - I go over the same things again and again","Sometimes - it depends what is going on","Rarely - I can usually quieten it","Almost never - my mind feels clear and calm"],
+  's-energy':       ["Almost never - most of it drains me","Rarely - there are a few bright spots","Sometimes - it is a mixed picture","Often - more good than bad","Most of the time - I love what I do"],
+  's-authenticity': ["Not at all - it feels like someone else's life","Very little - I have drifted from who I really am","Partially - some parts fit, others really do not","Mostly - a few things feel out of alignment","Completely - I am living in full alignment"],
+  's-action':       ["Feel paralysed - knowing and doing are very different things","Overthink it until the moment passes","Start things but struggle to follow through","Eventually get there, but it takes longer than it should","Move quickly - I trust myself to figure it out"],
+  's-daytoday':     ["Dread - I really do not want to face the week","Flat - I go through the motions","Okay - some things to look forward to, some not","Generally fine - most days feel purposeful","Ready - I am excited about what the week holds"],
+  's-selfbelief':   ["Constantly - it is exhausting","Often - especially on social media","Sometimes - I can usually shake it off","Rarely - I am mostly focused on my own path","Almost never - I am genuinely at peace with where I am"],
+  's-support':      ["Completely alone - I do not have anyone who really gets it","Mostly alone - I have people but they do not fully understand","Somewhat supported - some people, some of the time","Generally supported - I have people I can turn to","Very supported - I have exactly the right people around me"],
+  's-hope':         ["Hopeless - I cannot imagine things being different","Uncertain - I want things to change but do not see how","Cautiously hopeful - I can see a possibility but it feels far away","Optimistic - I believe things can be different","Excited - I have a clear and compelling vision"],
+  's-selfworth':    ["Almost never - I know I am capable of so much more","Rarely - I keep starting things and not finishing them","Sometimes - I have moments but not consistently","Often - I am generally living well but there is more in me","Most of the time - I feel genuinely fulfilled"],
+};
+const areaName = id => AREAS.find(a=>a.id===id).name;
+const answerFor = (id,v) => (ANSWERS[id]||[])[v-1] || '';
 
 function getScores(){
   const s={};
@@ -347,15 +415,15 @@ const ROOTS = {
       firstStep:'Identify one person this week — not necessarily someone already in your life — who might understand what you are building. Reach out to them.'
     },
   grief: {
-      root:'Potential grief — knows she is capable but cannot unlock it',
-      meaning:'She has a painful awareness of her own potential that she cannot seem to access. She starts things and stops. She knows what she wants but something invisible keeps blocking her. There is often a history of being shut down at a key moment.',
-      cost:'Self respect. Every time she does not follow through the story gets louder: I am someone who cannot finish things. That story then becomes the reason not to start the next thing.',
+      root:'Holding back to stay safe — not trusting herself, she has learned to play it safe',
+      meaning:'She knows she is capable of more, but she does not trust herself enough to act on it, so she holds back: she freezes, overthinks or waits for certainty. Somewhere she learned that moving forward is risky, often after being shut down or criticised at a key moment.',
+      cost:'Grief for her own potential. She can see what she is capable of going unused, and each time she holds back the story gets louder: I am someone who never follows through. That story then becomes the reason not to start the next thing.',
       opening:'What I want to name is that this is not laziness and it is not a lack of discipline. You are not someone who cannot take action — you are someone who has learned that moving forward is risky. Something taught you that.',
       question:'Tell me about a time you started something you were excited about — and then stopped. What happened?',
       prompts:['Have you ever been told you were too much — too ambitious, too different, too big?','Who in your life has truly believed in you without conditions?','What is the story you tell yourself about why you cannot have what you want?'],
       priority:'Find the story beneath the block. The Clarity Session needs to gently uncover what taught her that moving forward was dangerous. The strategy rebuilds self belief from the root up.',
-      strengths:'High Hope is the most important asset here — she has not given up. That belief is what makes everything possible.',
-      firstStep:'Name one block from the toolkit that felt most uncomfortably true. Just name it. Awareness is the beginning of release.'
+      strengths:'Hope is the most important asset here. If it is high, she has not given up, and that belief is what makes everything possible.',
+      firstStep:'One small action a day for a week, small enough that holding back feels unnecessary. Each kept promise is evidence that moving forward is safe.'
     },
   perfectionism: {
       root:'Fear of commitment — perfectionism of choice',
@@ -399,12 +467,12 @@ const ROOTS = {
 // signals: [area, weight, 'low' or 'high'] — heavier weight = more important.
 const PATTERNS = [
   {key:'lossOfSelf',    core:['s-selfworth','s-authenticity','s-direction'], signals:[['s-selfworth',3,'low'],['s-authenticity',3,'low'],['s-direction',1,'low'],['s-energy',1,'low']]},
-  {key:'fearCommit',    core:['s-busymind','s-action'],        signals:[['s-busymind',3,'low'],['s-action',3,'low'],['s-energy',1,'high'],['s-hope',1,'high']]},
+  {key:'fearCommit',    core:['s-ideaclarity','s-action'],     signals:[['s-ideaclarity',3,'low'],['s-action',3,'low'],['s-clearmind',1,'low'],['s-energy',1,'high'],['s-hope',1,'high']]},
   {key:'proving',       core:['s-selfworth'],                  signals:[['s-selfworth',3,'low'],['s-direction',2,'high'],['s-action',2,'high']]},
   {key:'misalignment',  core:['s-authenticity','s-energy','s-daytoday'], signals:[['s-authenticity',2,'low'],['s-energy',2,'low'],['s-daytoday',2,'low']]},
   {key:'isolation',     core:['s-support'],                    signals:[['s-support',3,'low'],['s-selfworth',1,'low'],['s-action',1,'low'],['s-selfbelief',1,'low']]},
-  {key:'grief',         core:['s-action','s-selfworth'],       signals:[['s-selfworth',2,'low'],['s-action',2,'low'],['s-energy',1,'low'],['s-hope',2,'high']]},
-  {key:'perfectionism', core:['s-busymind'],                   signals:[['s-busymind',3,'low'],['s-direction',1,'high'],['s-action',1,'high'],['s-selfworth',1,'high']]},
+  {key:'grief',         core:['s-action','s-selfworth'],       signals:[['s-selfworth',3,'low'],['s-action',2,'low'],['s-hope',1,'high']]},
+  {key:'perfectionism', core:['s-ideaclarity','s-clearmind'],  signals:[['s-ideaclarity',3,'low'],['s-clearmind',2,'low'],['s-direction',1,'high'],['s-action',1,'high'],['s-selfworth',1,'high']]},
   {key:'selfDoubt',     core:['s-selfbelief'],                 signals:[['s-selfbelief',3,'low'],['s-selfworth',1,'low'],['s-action',1,'low'],['s-hope',1,'high']]},
 ];
 
@@ -429,12 +497,69 @@ function identifyRoot(s){
   if(!ranked.length) return Object.assign({}, ROOTS.mixed);
 
   const result = Object.assign({}, ROOTS[ranked[0].key]);
-  result.strength = ranked[0].match >= 0.75 ? 'Strong match' : ranked[0].match >= 0.6 ? 'Good match' : 'Possible match — confirm in the call';
-  const second = ranked[1];
-  if(second && second.match >= 0.6 && ranked[0].match - second.match <= 0.12){
-    result.secondary = ROOTS[second.key].root;
-  }
+  const lowCount = Object.keys(s).filter(isLow).length;
+  result.strength = lowCount >= 7 ? 'Starting point only: almost every area is low, so the scores cannot single out one root'
+    : ranked[0].match >= 0.75 ? 'Strong match' : ranked[0].match >= 0.6 ? 'Good match' : 'Possible match — confirm in the call';
+  result.match = ranked[0].match;
+  // Evidence: the answers that pointed to this root
+  result.evidence = PATTERNS.find(p => p.key === ranked[0].key).signals
+    .filter(([id, w, dir]) => dir === 'low' ? isLow(id) : s[id] >= 4)
+    .map(([id]) => ({ id, score: s[id] }));
+  // Other roots that score nearly as high
+  result.close = ranked.slice(1)
+    .filter(r => r.match >= 0.6 && ranked[0].match - r.match <= 0.12)
+    .slice(0, 2)
+    .map(r => ({ name: ROOTS[r.key].root, match: r.match, question: ROOTS[r.key].question }));
   return result;
+}
+
+// ─── WHAT STANDS OUT ─────────────────────────────────────────────────────────
+// Reads the answers against each other, the way you would by eye.
+function standOut(s){
+  const has = id => s[id] > 0;
+  const lo  = id => has(id) && s[id] <= 2;
+  const hi  = id => s[id] >= 4;
+  const sc  = id => `${areaName(id)} ${s[id]}/5`;
+  const notes = [];
+  const answered = AREAS.filter(a => has(a.id));
+  if(!answered.length) return notes;
+
+  const min = Math.min(...answered.map(a => s[a.id]));
+  const lows  = answered.filter(a => s[a.id] <= 2);
+  const highs = answered.filter(a => s[a.id] >= 4);
+
+  if(min <= 2){
+    const lowest = answered.filter(a => s[a.id] === min);
+    if(lowest.length >= 5) notes.push({html:`<strong>${lowest.length} areas scored ${min}/5.</strong> When almost everything is low, the scores cannot point to one root on their own. Start with how she is feeling, then ask which area feels heaviest.`});
+    else notes.push({html: lowest.length === 1
+      ? `<strong>Lowest area: ${sc(lowest[0].id)}.</strong> Her answer was “${answerFor(lowest[0].id, min)}”. The root is usually closest to the lowest score, so start here.`
+      : `<strong>Lowest areas: ${lowest.map(a => a.name).join(', ')} (${min}/5).</strong> Ask which of these feels heaviest. Her answer points to the root.`});
+  }
+  if(hi('s-ideaclarity') && lo('s-direction'))
+    notes.push({html:`<strong>She has an idea but doubts it.</strong> ${sc('s-ideaclarity')} says she has one clear idea, yet ${sc('s-direction')} says she is unclear about what she wants. The idea is there, but she may not trust it yet. Ask what makes her doubt it.`});
+  if(hi('s-direction') && lo('s-action'))
+    notes.push({html:`<strong>She knows, but is not doing.</strong> ${sc('s-direction')} is strong and ${sc('s-action')} is low. Clarity is not the problem. Look for what makes acting feel risky.`});
+  if(lo('s-selfworth') && lo('s-action'))
+    notes.push({html:`<strong>Self-worth and action are low together.</strong> ${sc('s-selfworth')} and ${sc('s-action')}. She may not yet believe she is the person who gets to pursue what she wants, and that can stop her before she starts.`});
+  if(lo('s-clearmind') && hi('s-ideaclarity'))
+    notes.push({html:`<strong>Her mind is busy even though she has a clear idea.</strong> ${sc('s-clearmind')} with ${sc('s-ideaclarity')}. The overthinking is more likely doubt than too many options.`});
+  if(lo('s-clearmind') && lo('s-ideaclarity'))
+    notes.push({html:`<strong>A busy mind and too many ideas.</strong> ${sc('s-clearmind')} with ${sc('s-ideaclarity')}. She needs a way to choose before anything else.`});
+  if(lo('s-selfbelief'))
+    notes.push({html:`<strong>Self Belief is about comparison.</strong> ${sc('s-selfbelief')} comes from how often she compares her life to others and feels behind. Ask who she compares herself to.`});
+  if(lo('s-support') && lows.length > 1)
+    notes.push({html:`<strong>She is carrying this mostly alone.</strong> ${sc('s-support')}: “${answerFor('s-support', s['s-support'])}”. Feeling understood on the call will matter as much as any advice.`});
+  if(hi('s-hope') && (lo('s-selfbelief') || lo('s-selfworth')))
+    notes.push({html:`<strong>Hope is her anchor.</strong> ${sc('s-hope')}: she believes things can change even though she doubts herself. Build from that.`});
+  if(lows.length === 1 && highs.length >= 6)
+    notes.push({html:`<strong>Almost everything is working.</strong> ${highs.length} areas scored 4 or 5. Treat this as one specific block, not a confidence problem, and keep the call practical.`});
+  if(lo('s-energy') && lo('s-daytoday')){
+    const severe = s['s-energy'] === 1 && s['s-daytoday'] === 1;
+    notes.unshift({care:true, html: severe
+      ? `<strong>Care note: check in on her wellbeing first.</strong> ${sc('s-energy')} and ${sc('s-daytoday')}: most things drain her and she dreads the week. Before any coaching, gently ask how long she has felt this way and how she is coping. If it has lasted for weeks, encourage her to speak to her GP as well. Coaching works best alongside the right support, not instead of it.`
+      : `<strong>Care note.</strong> ${sc('s-energy')} and ${sc('s-daytoday')} are both low. Keep any first step very small, and gently ask how long she has felt this way. If it has lasted for weeks, suggest she also speaks to her GP.`});
+  }
+  return notes;
 }
 
 function generatePrep(){
@@ -454,13 +579,31 @@ function generatePrep(){
     </div>`;
 
   // Areas
-  const focusAreas = [], wellAreas = [];
+  const focusAreas = [], wellAreas = [], steadyAreas = [];
   AREAS.forEach(a=>{
     const v = s[a.id];
     if(v>0 && v<=2) focusAreas.push(a.name);
     else if(v>=4) wellAreas.push(a.name);
-    // score of 3 is neutral — not shown in either group, matching Life Check-In tool
+    else if(v===3) steadyAreas.push(a.name);
   });
+  document.getElementById('steady-areas').innerHTML = steadyAreas.length
+    ? steadyAreas.map(n=>`<span class="area-pill steady">${n}</span>`).join('')
+    : '<span style="font-size:12px;color:var(--muted);">None identified</span>';
+
+  // Her answers, lowest first
+  document.getElementById('score-breakdown').innerHTML = AREAS
+    .filter(a => s[a.id] > 0)
+    .sort((a,b) => s[a.id] - s[b.id])
+    .map(a => {
+      const v = s[a.id], cls = v<=2 ? 'focus' : v>=4 ? 'well' : 'steady';
+      return `<tr><td class="bd-area">${a.name}</td><td class="bd-score"><span class="area-pill ${cls}">${v}/5</span></td><td>${answerFor(a.id, v)}</td></tr>`;
+    }).join('');
+
+  // What stands out
+  const notes = standOut(s);
+  document.getElementById('standout-notes').innerHTML = notes.length
+    ? notes.map(n => `<div class="note${n.care ? ' care' : ''}">${n.html}</div>`).join('')
+    : '<div class="note">Nothing stands out from the scores alone. Use the call to explore what feels heaviest.</div>';
   document.getElementById('focus-areas').innerHTML = focusAreas.length
     ? focusAreas.map(n=>`<span class="area-pill focus">${n}</span>`).join('')
     : '<span style="font-size:12px;color:var(--muted);">None identified</span>';
@@ -471,12 +614,22 @@ function generatePrep(){
   // Root
   const root = identifyRoot(s);
   document.getElementById('root-display').textContent = root.root;
-  if(root.strength || root.secondary){
+  const pct = m => Math.round(m * 100) + '%';
+  if(root.strength){
     const extra = document.createElement('div');
     extra.style.cssText = 'font-size:12px;font-weight:400;margin-top:8px;opacity:0.8;';
-    extra.textContent = [root.strength, root.secondary ? 'Also present: ' + root.secondary : ''].filter(Boolean).join(' · ');
+    extra.textContent = root.strength.startsWith('Starting point') ? root.strength : `${root.strength} (${pct(root.match)})`;
     document.getElementById('root-display').appendChild(extra);
   }
+  const evidence = root.evidence || [], close = root.close || [];
+  document.getElementById('root-why-block').style.display = evidence.length ? 'block' : 'none';
+  document.getElementById('root-why').innerHTML = evidence
+    .map(e => `<div class="note"><strong>${areaName(e.id)} ${e.score}/5.</strong> “${answerFor(e.id, e.score)}”</div>`).join('');
+  document.getElementById('root-close-block').style.display = close.length ? 'block' : 'none';
+  document.getElementById('root-close').innerHTML = close.length
+    ? `<div class="note">On scores alone these are close to the main root (${pct(root.match)}). Use the question beside each one on the call, and let her answer decide.</div>`
+      + close.map(c => `<div class="note"><strong>${c.name} (${pct(c.match)}).</strong> Ask: “${c.question}”</div>`).join('')
+    : '';
   document.getElementById('root-meaning').textContent = root.meaning;
   document.getElementById('root-cost').textContent = root.cost;
 
@@ -488,7 +641,12 @@ function generatePrep(){
 
   // Strategy
   document.getElementById('strategy-priority').textContent = root.priority;
-  document.getElementById('strategy-strengths').textContent = root.strengths;
+  const strongest = AREAS.filter(a => s[a.id] >= 4).sort((a,b) => s[b.id] - s[a.id]).map(a => `${a.name} ${s[a.id]}/5`);
+  document.getElementById('strategy-strengths').textContent =
+    (strongest.length ? `Her strongest areas: ${strongest.join(', ')}. `
+      : (() => { const top = Math.max(...AREAS.map(a => s[a.id] || 0));
+          const best = AREAS.filter(a => s[a.id] === top).map(a => `${a.name} ${top}/5`);
+          return `No area scored 4 or 5. Her highest: ${best.join(', ')}. Build from there. `; })()) + root.strengths;
   document.getElementById('first-step').textContent = root.firstStep;
 
   // Title
@@ -514,7 +672,7 @@ function printPrep(){
 }
 // ─── AUTO-FILL FROM EMAIL LINK ───────────────────────────────────────────────
 // The Life Check-In email link carries the client's scores, e.g.
-// prep.html?name=Abbi&overall=54&direction=3&busymind=3 ...
+// prep.html?name=Abbi&overall=54&direction=3&ideaclarity=3&clearmind=2 ...
 // When those are present, fill the form and generate the prep automatically.
 (function autoFill(){
   const params = new URLSearchParams(window.location.search);
@@ -524,7 +682,9 @@ function printPrep(){
   const overall = parseInt(params.get('overall'));
   if(overall>=0 && overall<=100) document.getElementById('overall-score').value = overall;
   AREAS.forEach(a=>{
-    const v = parseInt(params.get(a.id.replace('s-','')));
+    const key = a.id.replace('s-','');
+    // links sent before the rename used "busymind" for Idea Clarity
+    const v = parseInt(params.get(key) ?? (key === 'ideaclarity' ? params.get('busymind') : null));
     if(v>=1 && v<=5) document.getElementById(a.id).value = v;
   });
   generatePrep();
