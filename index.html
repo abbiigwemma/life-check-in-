@@ -86,7 +86,7 @@ input:focus{border-color:#888}
   </div>
   <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
   <p class="intro-text">Designed for people who feel ready for change but are not sure where to start.</p>
-  <p class="intro-text">10 honest questions to help you get a clear picture of where you are right now. No judgement — just clarity on what is working and what is not.</p>
+  <p class="intro-text">11 honest questions to help you get a clear picture of where you are right now. No judgement — just clarity on what is working and what is not.</p>
   <div class="tags">
     <span class="tag">10 minutes</span>
     <span class="tag">Completely free</span>
@@ -104,7 +104,7 @@ input:focus{border-color:#888}
     <div class="logo-wrap">
       <div class="logo"><span class="logo-inner">F<span class="logo-dot"></span></span></div>
     </div>
-    <p class="subtitle" id="q-counter">Question 1 of 10</p>
+    <p class="subtitle" id="q-counter">Question 1 of 11</p>
   </div>
   <div class="dots" id="dots-bar"></div>
   <div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:10%"></div></div>
@@ -219,12 +219,18 @@ const QUESTIONS = [
     {label:"Partially clear - I have some ideas but cannot choose",score:3},
     {label:"Pretty clear - I know what I want, just not moving",score:4},
     {label:"Very clear - I know exactly where I am going",score:5}]},
-  {id:"ideas",area:"Busy Mind",q:"When it comes to what you could do differently with your life or career, you have...",opts:[
+  {id:"ideas",area:"Idea Clarity",q:"When it comes to what you could do differently with your life or career, you have...",opts:[
     {label:"Too many ideas - I cannot choose between them",score:1},
     {label:"A few ideas but none feel quite right",score:2},
     {label:"One or two that keep coming back to me",score:3},
-    {label:"One clear direction I just have not committed to",score:4},
+    {label:"One clear idea I just have not committed to",score:4},
     {label:"A clear plan I am already working on",score:5}]},
+  {id:"mind",area:"Clear Mind",q:"How often does your mind feel busy or stuck in overthinking?",opts:[
+    {label:"Constantly - my mind never switches off",score:1},
+    {label:"Often - I go over the same things again and again",score:2},
+    {label:"Sometimes - it depends what is going on",score:3},
+    {label:"Rarely - I can usually quieten it",score:4},
+    {label:"Almost never - my mind feels clear and calm",score:5}]},
   {id:"energy",area:"Energy & Fulfilment",q:"When you think about your typical week, how often do you feel genuinely energised by what you are doing?",opts:[
     {label:"Almost never - most of it drains me",score:1},
     {label:"Rarely - there are a few bright spots",score:2},
@@ -441,7 +447,7 @@ async function generateResults() {
     areasWrap.appendChild(sec);
   }
 
-  const sys = "You are a warm, perceptive life coach writing for Focussed. - a clarity coaching brand for people with busy minds. Write in flowing prose, no bullet points or headers. Address the person directly as "+firstName+". Be specific to their exact answers - do not be generic. Your tone is like a trusted friend who sees them clearly and tells them the truth with warmth. Your goal is to make them feel completely seen and understood - not fixed or advised, just genuinely heard. Keep responses concise - this person has a busy mind.";
+  const sys = "You are a warm, perceptive life coach writing for Focussed. - a clarity coaching brand for people with busy minds. Write in flowing prose, no bullet points or headers. Address the person directly as "+firstName+". Be specific to their exact answers - do not be generic. Your tone is like a trusted friend who sees them clearly and tells them the truth with warmth. Your goal is to make them feel completely seen and understood - not fixed or advised, just genuinely heard. Keep responses concise - this person has a busy mind. Ground everything in their actual answers. Areas scored 4 or 5 are genuine strengths: acknowledge them warmly and never describe them as a struggle. If their other answers suggest a strength is not showing up right now, describe it as a temporary gap using language like: you are usually someone who..., but right now... Offer deeper interpretations as possibilities (this may be..., it could be that...), never as definite facts. Do not exaggerate or use more dramatic language than their answers support. Describe what they actually answered, not the name of the area. If two answers seem to pull in different directions, do not state both as facts: name it gently as a tension (for example: you have an idea you keep coming back to, but you are not yet sure it is what you really want). Use British English spelling.";
 
   // Mirror
   try {
@@ -462,7 +468,7 @@ async function generateResults() {
   // Patterns
   try {
     const text = await askClaude(
-      firstName+" completed The Life Check-In with these answers: "+answerSummary+". Low scoring areas: "+(lowAreas.join(", ")||"none")+". High scoring areas: "+(highAreas.join(", ")||"none")+". Write 3 sentences that go beneath the surface scores to name the single root cause driving all of "+firstName+"s low scores. Do not list the symptoms - find what is underneath them all. Then name what this root cause is costing "+firstName+" in their daily life. Be direct, specific and compassionate. Do not repeat anything already said about their current situation - this should feel like a deeper layer of truth being revealed.",
+      firstName+" completed The Life Check-In with these answers: "+answerSummary+". Low scoring areas: "+(lowAreas.join(", ")||"none")+". High scoring areas: "+(highAreas.join(", ")||"none")+". Write 3 sentences. If they have high scoring areas, briefly honour those strengths first. Then go beneath the surface scores to gently name the most likely root cause driving all of "+firstName+"s low scores. Do not list the symptoms - find what is underneath them all. Then name what this root cause is costing "+firstName+" in their daily life. Be direct, specific and compassionate. Do not repeat anything already said about their current situation - this should feel like a deeper layer of truth being revealed.",
       sys
     );
     document.getElementById("patterns-spinner").style.display="none";
@@ -494,7 +500,7 @@ async function generateResults() {
   document.getElementById("cta-card").style.display="block";
 
   // Coach notification - includes every score and a one-click prep link
-  const PREP_KEYS = { direction:"direction", ideas:"busymind", energy:"energy", authentic:"authenticity",
+  const PREP_KEYS = { direction:"direction", ideas:"ideaclarity", mind:"clearmind", energy:"energy", authentic:"authenticity",
     action:"action", morning:"daytoday", comparison:"selfbelief", support:"support", future:"hope", worthy:"selfworth" };
   const prepParams = new URLSearchParams({ name: state.name, overall: pct });
   QUESTIONS.forEach(q => { if (state.answers[q.id]) prepParams.set(PREP_KEYS[q.id], state.answers[q.id].score); });
@@ -520,5 +526,7 @@ async function generateResults() {
   }
 }
 </script>
+</body>
+</html>
 </body>
 </html>
